@@ -44,7 +44,7 @@ function doit() {
 	    d3.select("#count").classed("active", true);
 	  });
 	});
-	setInterval(doit, 2000);
+	setInterval(doit, 5000);
 }
 
 doit();

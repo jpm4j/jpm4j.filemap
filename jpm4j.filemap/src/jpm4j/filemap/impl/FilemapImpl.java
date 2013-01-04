@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import aQute.bnd.annotation.component.Component;
+import aQute.bnd.annotation.component.ConfigurationPolicy;
 import aQute.bnd.annotation.component.Reference;
 import aQute.lib.io.IO;
 import aQute.lib.json.JSONCodec;
@@ -36,8 +37,8 @@ import aQute.lib.json.JSONCodec;
  */
 
 @Component(provide = { Servlet.class, Runnable.class }, properties = {
-		"alias=/filemap", "main.thread=true" }, designateFactory = FilemapImpl.Config.class)
-public class FilemapImpl extends HttpServlet {
+		"alias=/filemap", "main.thread=true" }, designateFactory = FilemapImpl.Config.class, configurationPolicy=ConfigurationPolicy.optional)
+public class FilemapImpl extends HttpServlet implements Runnable {
 	private static final long serialVersionUID = 1L;
 
 	// Command line arguments
