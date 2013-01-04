@@ -1,0 +1,15 @@
+-include: ~bnd.bnd
+
+-runbundles: org.apache.felix.scr,\
+	org.apache.felix.metatype,\
+	org.apache.felix.log,\
+	org.apache.felix.http.whiteboard;version='[2,3)',\
+	org.apache.felix.http.jetty;version=2.2.0,\
+	com.springsource.javax.servlet;version=2.5.0,\
+	org.apache.felix.configadmin;version=1.6.0,\
+	org.apache.felix.webconsole;version='[3,4)', \
+	jpm4j.filemap;version=latest
+
+
+Bundle-SymbolicName: jpm4j.filemap.run
+JPM-Command: filemap

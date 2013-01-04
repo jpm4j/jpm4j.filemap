@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.DeflaterOutputStream;
 
 import javax.servlet.Servlet;
@@ -171,7 +173,7 @@ public class FilemapImpl extends HttpServlet implements Runnable {
 
 			if (args == null || args.length == 0 || args[0].equals("help")) {
 				System.out.println("Generate a file map in a web-browser with progress shown");
-				System.out.println("  filemap [-s <min size>] [-t <sleep>] paths ...");
+				System.out.println("  filemap [-s <>[kmg]] [-t <sleep>] paths ...");
 				return;
 			}
 
@@ -195,7 +197,19 @@ public class FilemapImpl extends HttpServlet implements Runnable {
 				if ("-t".equals(s)) {
 					timeout = Integer.parseInt(args[++i]);
 				} else if ("-s".equals(s)) {
-					minSize = Long.parseLong(args[++i]);
+					String size = args[++i];
+					Matcher m = Pattern.compile("([0-9]+)(k|m|g)?").matcher(size);
+					if ( !m.matches()) {
+						System.out.println(" -s takes <int>(k|m|g)");
+						return;
+					}
+					minSize = Long.parseLong(m.group(1));
+					if ( "k".equals(m.group(2)))
+						minSize *= 1024;
+					else if ( "m".equals(m.group(2)))
+						minSize *= 1024*1024;
+					else if ( "g".equals(m.group(2)))
+						minSize *= 1024*1024*1024;
 				} else {
 					File f = IO.getFile(s);
 					traverse(root, f);

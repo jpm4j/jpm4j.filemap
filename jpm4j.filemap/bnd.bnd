@@ -1,4 +1,5 @@
 Private-Package: jpm4j.filemap.impl
+
 -runbundles: org.apache.felix.scr,\
 	org.apache.felix.metatype,\
 	org.apache.felix.log,\
@@ -21,5 +22,4 @@ Service-Component: *
 	com.springsource.javax.servlet;version=2.5,\
 	osgi.cmpn;version=4.3
 
-JPM-Command: filemap
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.1
