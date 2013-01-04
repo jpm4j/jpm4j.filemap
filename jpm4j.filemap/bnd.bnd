@@ -1,0 +1,30 @@
+Private-Package: jpm4j.filemap.impl
+-runbundles: org.apache.felix.scr,\
+	org.apache.felix.metatype,\
+	org.apache.felix.log,\
+	org.apache.felix.gogo.command,\
+	org.apache.felix.gogo.runtime,\
+	org.apache.felix.http.whiteboard;version='[2,3)',\
+	org.apache.felix.http.jetty;version=2.2.0,\
+	com.springsource.javax.servlet;version=2.5.0,\
+	org.apache.felix.configadmin;version=1.6.0
+
+Conditional-Package: aQute.lib*
+Include-Resource: static=static
+ 
+-runee: JavaSE-1.6
+Service-Component: *
+-runfw: org.apache.felix.framework
+-buildpath: osgi.core;version=5,\
+	biz.aQute.bnd;version=2.1,\
+	com.springsource.junit;version=3.8.2,\
+	com.springsource.javax.servlet;version=2.5,\
+	osgi.cmpn;version=4.3
+
+-runrequires: osgi.identity;filter:='(osgi.identity=org.apache.felix.scr)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.shell)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.command)'
+	
+	
+JPM-Command: filemap
+Bundle-Version: 1.0.0

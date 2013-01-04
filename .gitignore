@@ -1,6 +1,7 @@
 *.class
 
-# Package Files #
-*.jar
-*.war
-*.ear
+/*/bin/
+/*/generated/
+/*/bin_test/
+/cnf/cache/
+
