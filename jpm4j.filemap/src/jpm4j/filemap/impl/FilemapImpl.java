@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.DeflaterOutputStream;
 
 import javax.servlet.Servlet;
@@ -37,7 +38,7 @@ import aQute.lib.json.JSONCodec;
  */
 
 @Component(provide = { Servlet.class, Runnable.class }, properties = {
-		"alias=/filemap", "main.thread=true" }, designateFactory = FilemapImpl.Config.class, configurationPolicy=ConfigurationPolicy.optional)
+		"alias=/filemap", "main.thread=true" }, designateFactory = FilemapImpl.Config.class, configurationPolicy = ConfigurationPolicy.optional)
 public class FilemapImpl extends HttpServlet implements Runnable {
 	private static final long serialVersionUID = 1L;
 
@@ -47,6 +48,9 @@ public class FilemapImpl extends HttpServlet implements Runnable {
 	// Root node for the file map
 	private Node root = new Node("root");
 
+	private long minSize;
+	private final static AtomicInteger counter = new AtomicInteger(1000000);
+
 	// Simple node class that is serialized to the browser
 	public class Node {
 
@@ -55,7 +59,9 @@ public class FilemapImpl extends HttpServlet implements Runnable {
 		}
 
 		public String name;
-		public List<Node> children;
+		public boolean done;
+		public int n = counter.incrementAndGet();
+		public List<Node> children = new ArrayList<FilemapImpl.Node>();
 		public long size;
 	}
 
@@ -119,7 +125,7 @@ public class FilemapImpl extends HttpServlet implements Runnable {
 	 * 
 	 * @throws IOException
 	 */
-	private InputStream getResource(String path) throws IOException {
+	InputStream getResource(String path) throws IOException {
 		if (path == null || path.isEmpty() || "/".equals(path))
 			path = "index.html";
 		else
@@ -136,7 +142,7 @@ public class FilemapImpl extends HttpServlet implements Runnable {
 	/*
 	 * Calculate the JSON stream.
 	 */
-	private void getData(OutputStream out) {
+	 void getData(OutputStream out) {
 		try {
 			synchronized (root) {
 				new JSONCodec().enc().to(out).put(root);
@@ -162,12 +168,12 @@ public class FilemapImpl extends HttpServlet implements Runnable {
 	 */
 	public void run() {
 		try {
-			//
-			// Setup default args if not set
-			//
 
-			if (args == null || args.length == 0)
-				args = new String[] { "." };
+			if (args == null || args.length == 0 || args[0].equals("help")) {
+				System.out.println("Generate a file map in a web-browser with progress shown");
+				System.out.println("  filemap [-s <min size>] [-t <sleep>] paths ...");
+				return;
+			}
 
 			//
 			// Get the URL to browse to
@@ -181,13 +187,23 @@ public class FilemapImpl extends HttpServlet implements Runnable {
 			// Might add an option to override timeout
 
 			int timeout = 10000000;
+			minSize = 1000000;
 			Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
-			for (String s : args) {
-				File f = IO.getFile(s);
-				traverse(root, f);
+			
+			for (int i = 0; i < args.length; i++) {
+				String s = args[i];
+				if ("-t".equals(s)) {
+					timeout = Integer.parseInt(args[++i]);
+				} else if ("-s".equals(s)) {
+					minSize = Long.parseLong(args[++i]);
+				} else {
+					File f = IO.getFile(s);
+					traverse(root, f);
+				}
 			}
 
 			System.out.println("done");
+			root.done = true;
 			Thread.sleep(timeout);
 		} catch (Exception e) {
 			// should not happen, but in case ...
@@ -200,7 +216,7 @@ public class FilemapImpl extends HttpServlet implements Runnable {
 	 * Node for each directory.
 	 */
 
-	private void traverse(Node parent, File f) {
+	 void traverse(Node parent, File f) {
 		if (!f.exists())
 			return;
 
@@ -209,20 +225,24 @@ public class FilemapImpl extends HttpServlet implements Runnable {
 			return;
 		}
 
-		Node node = new Node(f.getName());
+		Node node = new Node(f.getAbsolutePath());
+
 		synchronized (root) {
-			if (parent.children == null)
-				parent.children = new ArrayList<Node>();
 			parent.children.add(node);
 		}
-
 		File[] list = f.listFiles();
 		if (list != null)
 			for (File sub : f.listFiles())
 				traverse(node, sub);
+
+		parent.size += node.size;
+
+		if (node.size < minSize) {
+			parent.children.remove(node);
+		}
 	}
 
-	/**
+	/*
 	 * A utility to open a URL on different OS's browsers
 	 * 
 	 * @param url
