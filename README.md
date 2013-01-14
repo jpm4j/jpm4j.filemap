@@ -4,7 +4,7 @@
 The demo application is a command line application that scans the disk and uses a
 web browser to show a treemap like:
 
-![treemap of file system](img/treemap.png "Treemap of file system")
+![treemap of file system](https://raw.github.com/jpm4j/jpm4j.filemap/master/jpm4j.filemap/img/treemap.png "Treemap of file system")
 
 This project is a intended to be used a tutorial or template for jpm4j applications developed with
 [bndtools](http://bndtools.org/). bndtools is an IDE for OSGi bundles based on [bnd](https://github.com/bndtools/bnd), 
