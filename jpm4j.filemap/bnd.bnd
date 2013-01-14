@@ -22,4 +22,20 @@ Service-Component: *
 	com.springsource.javax.servlet;version=2.5,\
 	osgi.cmpn;version=4.3
 
-Bundle-Version: 1.0.1
+Bundle-Version: 1.0.2
+Bundle-Name: Filemap
+Bundle-Description: A jpm4j command that scans the file system and shows the sizes of the directories through a browser. The synax is:\n\
+	\n\
+	    filemap [-s <>[kmg]] paths ...\n\
+	\n\
+	The `-s` options indicate the minimum size to display. It can be suffixed with k (kilo), m (mega), or g (giga). For example:\n\
+	\n\
+	    filemap -s 100k ~\n\
+	\n\
+	
+Bundle-Copyright: aQute SARL 2013 All Rights Reserved
+Bundle-License: http://www.opensource.org/licenses/apache2.0.php;description="${Bundle-Copyright}"; link=LICENSE\n\
+	
+Bundle-Vendor: aQute SARL
+Bundle-ContactAddress: 9c, Avenue St. Drezery, Beaulieu
+Bundle-DocURL: https://jpm4j.org/#/p/osgi/jpm4j.filemap.run/

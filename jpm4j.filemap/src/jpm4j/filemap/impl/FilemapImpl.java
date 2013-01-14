@@ -37,6 +37,7 @@ import aQute.lib.json.JSONCodec;
  * This class is a servlet that registers by default under /filemap. It then
  * provides an html file {@code treemap.html} that provides the file map using
  * javascript and html.It might be horrible slow on larger file systems.
+ * 
  */
 
 @Component(provide = { Servlet.class, Runnable.class }, properties = {
