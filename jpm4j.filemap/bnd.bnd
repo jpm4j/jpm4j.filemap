@@ -17,7 +17,7 @@ Include-Resource: static=static
 Service-Component: *
 -runfw: org.apache.felix.framework
 -buildpath: osgi.core;version=5,\
-	biz.aQute.bnd;version=2.1,\
+	biz.aQute.bndlib;version=2.1,\
 	com.springsource.junit;version=3.8.2,\
 	com.springsource.javax.servlet;version=2.5,\
 	osgi.cmpn;version=4.3
@@ -39,3 +39,5 @@ Bundle-License: http://www.opensource.org/licenses/apache2.0.php;description="${
 Bundle-Vendor: aQute SARL
 Bundle-ContactAddress: 9c, Avenue St. Drezery, Beaulieu
 Bundle-DocURL: https://jpm4j.org/#/p/osgi/jpm4j.filemap.run/
+
+-runproperties: org.osgi.service.http.port=8389

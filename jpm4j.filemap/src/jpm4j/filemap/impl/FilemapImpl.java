@@ -181,7 +181,7 @@ public class FilemapImpl extends HttpServlet implements Runnable {
 			//
 			// Get the URL to browse to
 			int port = 8080;
-			String p = System.getProperty("org.osgi.http.port");
+			String p = System.getProperty("org.osgi.service.http.port");
 			if (p != null && p.matches("[0-9]+"))
 				port = Integer.parseInt(p);
 

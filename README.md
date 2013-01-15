@@ -80,21 +80,22 @@ TODO link to the appropriate site
 When developing with bndtools, it is possible to turn the bnd file (or a .bndrun file)
 into an executable jar. This is done with the following command:
 
-	$ bnd package filemaprun.bndrun
+	$ bnd package -o ../release filemap.bndrun
 
 The `package` command creates a JAR that contains the framework, resources, bundles, etc. and
 creates a control file that when the JAR is started, all its bundles are installed from the JAR.
-This single JAR is therefore a full OSGi framework, including all its dependencies.
+This single JAR is therefore a full OSGi framework, including all its dependencies. The `-o` 
+option places the out (`filemap.jar`) in the release directory.
 
 The command can now be executed like:
 
-    $ java -jar filemap.jar ~
+    $ java -jar ../release/filemap.jar ~
 
 ## Testing it with JPM
 The next step is to test filemap with jpm. JPM normally downloads the JARs from the JPM
 website but it can also install files from a URL or from a file. 
 
-	$ sudo jpm install --force filemap.jar
+	$ sudo jpm install --force ../release/filemap.jar
  
 The `--force` flag is necessary to override the existing command. Since testing usually
 requires multiple iterations it is optional the first time but necessary subsequent times.
@@ -115,6 +116,9 @@ So you need to add at least the following headers:
 	Bundle-Version:	1.0.0.RC1
 	Bundle-SymbolicName: jpm4j.filemap.run
 	
+Notice that it is best to keep the Bundle-SymbolicName of the runtime different
+from the Bundle-SymbolicName of the bundle in this project ...
+
 A thing to consider is the use of the _qualifier_, `RC1` in this example. jpm4j
 in general derives the _stage_ of the revision from this qualifier. jpm4j
 recognizes the following stages:
@@ -131,14 +135,17 @@ By default, jpm4j only installs `master` revisions although the `--staged/-s`
 install option overrides it. It is therefore paramount to set the qualifier
 correctly. During testing, use a qualifier like a time stamp, RCn, etc. 
 
+## Other Meta Data
 Since the revision will be shared with the world, it makes sense to properly
 document the bundle. The following headers are recognized by jpm4j:
 
 	Bundle-Description:
 	Bundle-Vendor:
 	Bundle-Copyright:
+	Bundle-DocURL:
 	Bundle-License:
 	Bundle-Developer:
+	Bundle-Icon:
 
 TODO link to the appropriate site
 	
@@ -210,3 +217,7 @@ page. For filemap:
 	https://jpm4j.org/#/p/osgi/jpm4j.filemap.run/
 
 
+## Further
+After you've got this example to work locally, clone this repository and 
+*first* change the JPM-Command name. The namespace for these commands is quite
+narrow.
