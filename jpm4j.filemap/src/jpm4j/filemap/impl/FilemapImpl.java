@@ -279,7 +279,7 @@ public class FilemapImpl extends HttpServlet implements Runnable {
 
 			// Do a best guess on unix until we get a platform independent way
 			// Build a list of browsers to try, in this order.
-			String[] browsers = { "epiphany", "firefox", "mozilla",
+			String[] browsers = { "xdg-open", "epiphany", "firefox", "mozilla",
 					"konqueror", "netscape", "opera", "links", "lynx" };
 
 			// Build a command string which looks like
