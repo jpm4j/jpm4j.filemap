@@ -14,13 +14,11 @@
 # Git-Descriptor: ${system-allow-fail;git describe --dirty --always}
 # Git-SHA: ${system-allow-fail;git rev-list -1 HEAD}
 
+-pluginpath: /Ws/aQute.jpm/aQute.library/generated/aQute.library.bndrepo.jar
+
 -plugin: \
 		aQute.lib.deployer.FileRepo; \
 			name=Release; \
 			location=${workspace}/release, \
-        aQute.library.bnd2.Repository;\
-                url='http://jpm4j.org/rest/';\
-                includeStaged=true;name=JPM;\
-                location=cache; \
-                path:=${workspace}/cnf/plugins/aQute.library.bndrepo/aQute.library.bndrepo.jar
+		aQute.library.bnd.JpmRepository;url=http://jpm4j.org/rest/;includeStaged=true;name=JPM;location=${workspace}/cnf/cache2;index=${workspace}/cnf/jpm4j.json
 

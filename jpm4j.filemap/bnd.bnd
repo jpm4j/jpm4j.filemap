@@ -17,7 +17,7 @@ Include-Resource: static=static
 Service-Component: *
 -runfw: org.apache.felix.framework
 -buildpath: osgi.core;version=5,\
-	biz.aQute.bndlib;version=2.1,\
+	biz.aQute.bndlib;version=2.2,\
 	com.springsource.junit;version=3.8.2,\
 	com.springsource.javax.servlet;version=2.5,\
 	osgi.cmpn;version=4.3

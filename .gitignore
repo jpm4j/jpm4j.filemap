@@ -1,5 +1,5 @@
 *.class
-
+cnf/cache2/
 /*/bin/
 /*/generated/
 /*/bin_test/
