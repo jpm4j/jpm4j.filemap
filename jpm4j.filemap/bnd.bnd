@@ -41,3 +41,4 @@ Bundle-ContactAddress: 9c, Avenue St. Drezery, Beaulieu
 Bundle-DocURL: https://jpm4j.org/#/p/osgi/jpm4j.filemap.run/
 
 -runproperties: org.osgi.service.http.port=8389
+-runtrace: true
